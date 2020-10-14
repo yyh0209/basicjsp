@@ -57,18 +57,23 @@ public class LogonDBBean {
 			ps=conn.prepareStatement("select passwd from member where id=?");
 			ps.setString(1, id);
 			rs=ps.executeQuery();
-			ps.executeUpdate();
 			if(rs.next()) {
-				dbpasswd = rs.getString("passwd");
-			}
+				passwd = rs.getString("passwd");
+				if(passwd.equals(passwd))
+					x=1;
+				else
+					x=0;
+			}else 
+				x=-1;
 		}catch(Exception e) {
 			e.printStackTrace();
 		}finally {
+			if(rs!=null)try {rs.close();}catch(SQLException ex) {}
 			if(ps!=null)try {ps.close();}catch(SQLException ex) {}
 			if(conn!=null)try {conn.close();}catch(SQLException ex) {}
 		}
 		
-		return x;
+		return x; //x값을 반환.
 		
 		}
 	}
